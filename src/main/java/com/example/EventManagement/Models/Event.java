@@ -1,18 +1,22 @@
 package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Events")
-public class Events {
+public class Event {
 
 	@Id
 	@SequenceGenerator(name = "EVENT_ID_GEN", sequenceName = "event_id_seq", initialValue = 1, allocationSize = 1)
@@ -22,22 +26,27 @@ public class Events {
 	@NotBlank(message = "Please add an Event name")
 	private String name;
 
-	@NotBlank(message = "Please add an Owner name")
-	private String owner;
-
 	@NotBlank(message = "Please add a Event Time")
 	private LocalDateTime eventDate;
 
 	@NotBlank(message = "Please add a Location")
 	private String location;
 
-	// private String[] comments;
+	@ManyToOne
+	@JoinColumn(name = "FK_OWNER_ID")
+	private Owner owner;
 
-	public Events(String name, String owner, LocalDateTime eventDate, String location) {
+	@ManyToOne
+	@JoinColumn(name = "FK_OWNER_ID")
+	private Participant particpants;
+
+	@OneToMany(mappedBy = "event")
+	private List<Feedback> feedback;
+
+	public Event(String name, LocalDateTime eventDate, String location) {
 		super();
 
 		this.name = name;
-		this.owner = owner;
 		this.eventDate = eventDate;
 		this.location = location;
 
@@ -57,14 +66,6 @@ public class Events {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
 	}
 
 	public LocalDateTime getEventDate() {
