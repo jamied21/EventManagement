@@ -37,8 +37,8 @@ public class Event {
 	private Owner owner;
 
 	@ManyToOne
-	@JoinColumn(name = "FK_OWNER_ID")
-	private Participant particpants;
+	@JoinColumn(name = "FK_PARTICIPANT_ID")
+	private Participant participants;
 
 	@OneToMany(mappedBy = "event")
 	private List<Feedback> feedback;
@@ -93,11 +93,11 @@ public class Event {
 	}
 
 	public Participant getParticpants() {
-		return particpants;
+		return participants;
 	}
 
 	public void setParticpants(Participant particpants) {
-		this.particpants = particpants;
+		this.participants = particpants;
 	}
 
 	public List<Feedback> getFeedback() {
