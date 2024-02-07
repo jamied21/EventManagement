@@ -84,4 +84,28 @@ public class Event {
 		this.location = location;
 	}
 
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+
+	public Participant getParticpants() {
+		return particpants;
+	}
+
+	public void setParticpants(Participant particpants) {
+		this.particpants = particpants;
+	}
+
+	public List<Feedback> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<Feedback> feedback) {
+		this.feedback = feedback;
+	}
+
 }

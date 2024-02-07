@@ -63,4 +63,20 @@ public class Feedback {
 		this.rating = rating;
 	}
 
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public Participant getParticpant() {
+		return particpant;
+	}
+
+	public void setParticpant(Participant particpant) {
+		this.particpant = particpant;
+	}
+
 }
