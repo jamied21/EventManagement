@@ -10,6 +10,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Feedback")
@@ -23,7 +24,7 @@ public class Feedback {
 	@NotBlank(message = "Please provide comment")
 	private String comment;
 
-	@NotBlank(message = "Please provide a rating")
+	@NotNull(message = "Please provide a rating")
 	private Integer rating;
 
 	@ManyToOne
@@ -34,7 +35,7 @@ public class Feedback {
 	private Participant particpant;
 
 	public Feedback(String comment, Integer rating) {
-		super();
+
 		this.comment = comment;
 		this.rating = rating;
 	}

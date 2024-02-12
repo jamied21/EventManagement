@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "Owner")
 public class Owner {
 	@Id
 	@SequenceGenerator(name = "OWNER_ID_GEN", sequenceName = "Owner_id_seq", initialValue = 1, allocationSize = 1)
@@ -24,7 +26,7 @@ public class Owner {
 	private List<Event> events;
 
 	public Owner(String ownerName) {
-		super();
+
 		this.ownerName = ownerName;
 	}
 

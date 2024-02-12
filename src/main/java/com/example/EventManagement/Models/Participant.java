@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Particpants")
@@ -22,6 +23,7 @@ public class Participant {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ID_GEN")
 	private Integer id;
 
+	@NotBlank(message = "Provide an User Name")
 	private String userName;
 
 	@OneToOne(cascade = CascadeType.ALL)
