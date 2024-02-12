@@ -21,7 +21,7 @@ public class Feedback {
 	private Integer id;
 
 	@NotBlank(message = "Please provide comment")
-	private String comments;
+	private String comment;
 
 	@NotBlank(message = "Please provide a rating")
 	private Integer rating;
@@ -33,9 +33,9 @@ public class Feedback {
 	@OneToOne(mappedBy = "feedback")
 	private Participant particpant;
 
-	public Feedback(String comments, Integer rating) {
+	public Feedback(String comment, Integer rating) {
 		super();
-		this.comments = comments;
+		this.comment = comment;
 		this.rating = rating;
 	}
 
@@ -47,12 +47,12 @@ public class Feedback {
 		this.id = id;
 	}
 
-	public String getComments() {
-		return comments;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public Integer getRating() {
