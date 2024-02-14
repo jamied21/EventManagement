@@ -44,8 +44,11 @@ public class Event {
 	@OneToMany(mappedBy = "event")
 	private List<Feedback> feedback;
 
+	public Event() {
+
+	}
+
 	public Event(String name, LocalDateTime eventDate, String location) {
-		super();
 
 		this.name = name;
 		this.eventDate = eventDate;
