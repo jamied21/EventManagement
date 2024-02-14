@@ -25,6 +25,10 @@ public class Owner {
 	@OneToMany(mappedBy = "owner")
 	private List<Event> events;
 
+	public Owner() {
+
+	}
+
 	public Owner(String ownerName) {
 
 		this.ownerName = ownerName;

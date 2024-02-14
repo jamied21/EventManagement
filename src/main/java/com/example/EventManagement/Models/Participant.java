@@ -30,8 +30,11 @@ public class Participant {
 	@OneToMany(mappedBy = "participants")
 	private List<Event> events;
 
+	public Participant() {
+
+	}
+
 	public Participant(String userName) {
-		super();
 
 		this.userName = userName;
 	}

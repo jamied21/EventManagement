@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Register {
@@ -18,6 +19,7 @@ public class Register {
 	private Integer id;
 
 	// True if attended,false if not
+	@NotNull(message = "Please add attendance")
 	private Boolean attended;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -28,8 +30,12 @@ public class Register {
 	@JoinColumn(name = "FK_EVENT_ID")
 	private Event event;
 
+	public Register() {
+
+	}
+
 	public Register(Boolean attended) {
-		super();
+
 		this.attended = attended;
 	}
 
