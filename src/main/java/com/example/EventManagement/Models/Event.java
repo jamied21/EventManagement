@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Events")
@@ -26,7 +27,7 @@ public class Event {
 	@NotBlank(message = "Please add an Event name")
 	private String name;
 
-	@NotBlank(message = "Please add a Event Time")
+	@NotNull(message = "Please add a Event Time")
 	private LocalDateTime eventDate;
 
 	@NotBlank(message = "Please add a Location")

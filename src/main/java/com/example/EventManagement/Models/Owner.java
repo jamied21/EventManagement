@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "Owners")
 public class Owner {
 	@Id
 	@SequenceGenerator(name = "OWNER_ID_GEN", sequenceName = "Owner_id_seq", initialValue = 1, allocationSize = 1)
@@ -23,8 +25,12 @@ public class Owner {
 	@OneToMany(mappedBy = "owner")
 	private List<Event> events;
 
+	public Owner() {
+
+	}
+
 	public Owner(String ownerName) {
-		super();
+
 		this.ownerName = ownerName;
 	}
 
