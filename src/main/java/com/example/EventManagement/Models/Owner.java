@@ -1,12 +1,9 @@
 package com.example.EventManagement.Models;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -22,8 +19,8 @@ public class Owner {
 	@NotBlank(message = "Provide an Owner Name")
 	private String ownerName;
 
-	@OneToMany(mappedBy = "owner")
-	private List<Event> events;
+	// @OneToMany(mappedBy = "owner")
+	// private List<Event> events;
 
 	public Owner() {
 
@@ -50,12 +47,10 @@ public class Owner {
 		this.ownerName = ownerName;
 	}
 
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
+	/*
+	 * public List<Event> getEvents() { return events; }
+	 * 
+	 * public void setEvents(List<Event> events) { this.events = events; }
+	 */
 
 }

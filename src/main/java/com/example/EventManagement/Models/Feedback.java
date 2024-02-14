@@ -1,6 +1,5 @@
 package com.example.EventManagement.Models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +31,7 @@ public class Feedback {
 	@JoinColumn(name = "FK_EVENT_ID")
 	private Event event;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "FK_PARTICIPANT_ID")
 	private Participant participant;
 

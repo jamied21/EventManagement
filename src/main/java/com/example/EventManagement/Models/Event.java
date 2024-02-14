@@ -1,7 +1,6 @@
 package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -41,8 +39,8 @@ public class Event {
 	@JoinColumn(name = "FK_PARTICIPANT_ID")
 	private Participant participants;
 
-	@OneToMany(mappedBy = "event")
-	private List<Feedback> feedback;
+//	@OneToMany(mappedBy = "event")
+//	private List<Feedback> feedback;
 
 	public Event() {
 
@@ -104,12 +102,11 @@ public class Event {
 		this.participants = particpants;
 	}
 
-	public List<Feedback> getFeedback() {
-		return feedback;
-	}
-
-	public void setFeedback(List<Feedback> feedback) {
-		this.feedback = feedback;
-	}
+	/*
+	 * public List<Feedback> getFeedback() { return feedback; }
+	 * 
+	 * public void setFeedback(List<Feedback> feedback) { this.feedback = feedback;
+	 * }
+	 */
 
 }

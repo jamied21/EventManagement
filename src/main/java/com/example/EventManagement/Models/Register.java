@@ -1,6 +1,5 @@
 package com.example.EventManagement.Models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,11 +21,11 @@ public class Register {
 	@NotNull(message = "Please add attendance")
 	private Boolean attended;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "FK_PARTICIPANT_ID")
-	private Participant particpant;
+	private Participant participant;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "FK_EVENT_ID")
 	private Event event;
 
@@ -56,11 +55,11 @@ public class Register {
 	}
 
 	public Participant getParticpant() {
-		return particpant;
+		return participant;
 	}
 
 	public void setParticpant(Participant particpant) {
-		this.particpant = particpant;
+		this.participant = particpant;
 	}
 
 	public Event getEvent() {

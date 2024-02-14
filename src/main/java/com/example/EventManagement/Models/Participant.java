@@ -1,13 +1,9 @@
 package com.example.EventManagement.Models;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -24,11 +20,11 @@ public class Participant {
 	@NotBlank(message = "Provide an User Name")
 	private String userName;
 
-	@OneToOne(mappedBy = "participant")
-	private Feedback feedback;
+	// @OneToOne(mappedBy = "participant")
+	// private Feedback feedback;
 
-	@OneToMany(mappedBy = "participants")
-	private List<Event> events;
+	// @OneToMany(mappedBy = "participants")
+	// private List<Event> events;
 
 	public Participant() {
 
@@ -55,20 +51,20 @@ public class Participant {
 		this.userName = userName;
 	}
 
-	public Feedback getFeedback() {
-		return feedback;
-	}
-
-	public void setFeedback(Feedback feedback) {
-		this.feedback = feedback;
-	}
-
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
+//	public Feedback getFeedback() {
+//		return feedback;
+//	}
+//
+//	public void setFeedback(Feedback feedback) {
+//		this.feedback = feedback;
+//	}
+//
+//	public List<Event> getEvents() {
+//		return events;
+//	}
+//
+//	public void setEvents(List<Event> events) {
+//		this.events = events;
+//	}
 
 }
