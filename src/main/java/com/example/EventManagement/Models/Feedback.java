@@ -36,6 +36,10 @@ public class Feedback {
 	@JoinColumn(name = "FK_PARTICIPANT_ID")
 	private Participant participant;
 
+	public Feedback() {
+
+	}
+
 	public Feedback(String comment, Integer rating) {
 
 		this.comment = comment;
