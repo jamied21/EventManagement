@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "Owner")
+@Table(name = "Owners")
 public class Owner {
 	@Id
 	@SequenceGenerator(name = "OWNER_ID_GEN", sequenceName = "Owner_id_seq", initialValue = 1, allocationSize = 1)

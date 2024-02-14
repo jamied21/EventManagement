@@ -2,12 +2,10 @@ package com.example.EventManagement.Models;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
@@ -15,19 +13,18 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "Particpants")
+@Table(name = "Participants")
 public class Participant {
 
 	@Id
-	@SequenceGenerator(name = "USER_ID_GEN", sequenceName = "users_id_seq", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ID_GEN")
+	@SequenceGenerator(name = "PARTICIPANTS_ID_GEN", sequenceName = "Participants_id_seq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARTICIPANTS_ID_GEN")
 	private Integer id;
 
 	@NotBlank(message = "Provide an User Name")
 	private String userName;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_FEEDBACK_ID")
+	@OneToOne(mappedBy = "participant")
 	private Feedback feedback;
 
 	@OneToMany(mappedBy = "participants")
