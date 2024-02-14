@@ -1,29 +1,21 @@
----- Insert Owners
-INSERT INTO OWNERS (id, OWNER_NAME) VALUES (NEXTVAL('owner_id_seq'), 'John Doe');
-INSERT INTO OWNERS (id, OWNER_NAME) VALUES (NEXTVAL('owner_id_seq'), 'Jane Smith');
+------ Sample Dara Users
+INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'JohnDoe', 'Consultant');
+INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'AliceSmith', 'Trainer');
+INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'BobJohnson', 'Trainee');
 
----- Insert Participants
-INSERT INTO PARTICIPANTS (id, USER_NAME) VALUES  (NEXTVAL('participants_id_seq'), 'Alice Johnson');
-INSERT INTO PARTICIPANTS (id, USER_NAME) VALUES  (NEXTVAL('participants_id_seq'), 'Bob Williams');
-INSERT INTO PARTICIPANTS (id, USER_NAME) VALUES  (NEXTVAL('participants_id_seq'), 'Charlie Brown');
-INSERT INTO PARTICIPANTS (id, USER_NAME) VALUES  (NEXTVAL('participants_id_seq'), 'Diana Miller');
-INSERT INTO PARTICIPANTS (id, USER_NAME) VALUES  (NEXTVAL('participants_id_seq'), 'Eddie Johnson');
 
----- Insert Events
-INSERT INTO EVENTS (id, name, EVENT_DATE, location, FK_OWNER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Birthday Bash', '2024-03-15 18:00:00', '123 Main St', 1, 1);
-INSERT INTO EVENTS (id, name, EVENT_DATE, location, FK_OWNER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Conference', '2024-04-20 09:30:00', '456 Center Ave', 2, 2);
-INSERT INTO EVENTS (id, name, EVENT_DATE, location, FK_OWNER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Music Concert', '2024-05-10 20:00:00', '789 Park Lane', 1, 3);
-INSERT INTO EVENTS (id, name, EVENT_DATE, location, FK_OWNER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Tech Workshop', '2024-06-15 10:00:00', '101 Innovation Blvd', 2, 4);
-INSERT INTO EVENTS (id, name, EVENT_DATE, location, FK_OWNER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Food Festival', '2024-07-20 12:30:00', '202 Culinary Street', 1, 5);
+-- Sample data for Events
+INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event1', '2024-02-14T12:00:00', 'Location1', (SELECT id FROM Event_Users WHERE username = 'JohnDoe' AND role = 'Consultant'), (SELECT id FROM Event_Users WHERE username = 'AliceSmith' AND role = 'Trainer'));
+INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event2', '2024-02-15T14:30:00', 'Location2', (SELECT id FROM Event_Users WHERE username = 'BobJohnson' AND role = 'Trainee'), (SELECT id FROM Event_Users WHERE username = 'JohnDoe' AND role = 'Consultant'));
+INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event3', '2024-02-16T10:00:00', 'Location3', (SELECT id FROM Event_Users WHERE username = 'AliceSmith' AND role = 'Trainer'), (SELECT id FROM Event_Users WHERE username = 'BobJohnson' AND role = 'Trainee'));
 
----- Insert Feedback
-INSERT INTO FEEDBACK (id, comment, rating, FK_EVENT_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Enjoyed the event', 5, 1, 1);
-INSERT INTO FEEDBACK (id, comment, rating, FK_EVENT_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Room for improvement', 3, 2, 2);
-INSERT INTO FEEDBACK (id, comment, rating, FK_EVENT_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Fantastic music performance!', 4, 3, 3);
-INSERT INTO FEEDBACK (id, comment, rating, FK_EVENT_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Learned a lot about new technologies', 5, 4, 4);
-INSERT INTO FEEDBACK (id, comment, rating, FK_EVENT_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Amazing variety of food options', 4, 5, 5);
+-- Sample data for Register
+INSERT INTO Register (id, attended, FK_EVENT_ID, FK_USER_ID) VALUES (NEXTVAL('register_id_seq'), true, (SELECT id FROM Events WHERE name = 'Event1'), (SELECT id FROM Event_Users WHERE username = 'JohnDoe'));
+INSERT INTO Register (id, attended, FK_EVENT_ID, FK_USER_ID) VALUES (NEXTVAL('register_id_seq'), false, (SELECT id FROM Events WHERE name = 'Event2'), (SELECT id FROM Event_Users WHERE username = 'AliceSmith'));
+INSERT INTO Register (id, attended, FK_EVENT_ID, FK_USER_ID) VALUES (NEXTVAL('register_id_seq'), true, (SELECT id FROM Events WHERE name = 'Event3'), (SELECT id FROM Event_Users WHERE username = 'BobJohnson'));
 
----- Insert Registers
-INSERT INTO REGISTER (id, attended, FK_PARTICIPANT_ID, FK_EVENT_ID) VALUES (NEXTVAL('register_id_seq'), true, 3, 3);
-INSERT INTO REGISTER (id, attended, FK_PARTICIPANT_ID, FK_EVENT_ID) VALUES (NEXTVAL('register_id_seq'), true, 4, 4);
-INSERT INTO REGISTER (id, attended, FK_PARTICIPANT_ID, FK_EVENT_ID) VALUES (NEXTVAL('register_id_seq'), false, 5, 5);
+-- Sample data for Feedback
+INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('Feedback_id_seq'), 'Good event!', 5, 1);
+INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('Feedback_id_seq'), 'Could be better', 3, 2);
+INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('Feedback_id_seq'), 'Excellent organization', 4, 3);
+

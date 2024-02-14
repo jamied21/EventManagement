@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.EventManagement.Models.Participant;
-import com.example.EventManagement.Services.IParticipantService;
+import com.example.EventManagement.Models.User;
+import com.example.EventManagement.Services.IUserService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/participant")
-public class ParticipantController {
-	private IParticipantService participantService;
+@RequestMapping("/api/v1/user")
+public class UserController {
 
-	public ParticipantController(IParticipantService participantService) {
-		this.participantService = participantService;
+	private IUserService userService;
+
+	public UserController(IUserService userService) {
+		this.userService = userService;
 	}
 
 	@PostMapping
-	public ResponseEntity<?> saveParticipant(@Valid @RequestBody Participant participant, BindingResult bindingResult) {
+	public ResponseEntity<?> saveOwner(@Valid @RequestBody User user, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			Map<String, String> errors = new HashMap<>();
@@ -45,20 +46,20 @@ public class ParticipantController {
 
 		}
 
-		return new ResponseEntity<>(this.participantService.saveParticipant(participant), HttpStatus.CREATED);
+		return new ResponseEntity<>(this.userService.saveOwner(user), HttpStatus.CREATED);
 
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getAllParticipant() {
-		return new ResponseEntity<>(this.participantService.getAllParticipants(), HttpStatus.OK);
+	public ResponseEntity<?> getAllOwner() {
+		return new ResponseEntity<>(this.userService.getAllOwners(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getParticipantById(@PathVariable Integer id)
+	public ResponseEntity<?> getOwnerById(@PathVariable Integer id)
 
 	{
-		Participant result = this.participantService.findParticipantById(id);
+		User result = this.userService.findOwnerById(id);
 		if (result == null) {
 
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,9 +71,9 @@ public class ParticipantController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteParticipantById(@PathVariable Integer id) {
+	public ResponseEntity<Void> deleteOwnerById(@PathVariable Integer id) {
 
-		boolean result = this.participantService.deleteParticipantById(id);
+		boolean result = this.userService.deleteOwnerById(id);
 
 		if (result) {
 
@@ -84,12 +85,12 @@ public class ParticipantController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateParticipantById(@PathVariable Integer id, @RequestBody Participant participant) {
+	public ResponseEntity<?> updateOwnerById(@PathVariable Integer id, @RequestBody User user) {
 
-		boolean result = this.participantService.updateParticipantById(id, participant);
+		boolean result = this.userService.updateOwnerById(id, user);
 
 		if (result) {
-			return new ResponseEntity<>(participant, HttpStatus.OK);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);

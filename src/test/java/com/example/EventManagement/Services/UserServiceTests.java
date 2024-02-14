@@ -18,25 +18,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.EventManagement.Models.Owner;
-import com.example.EventManagement.Repository.OwnerRepository;
+import com.example.EventManagement.Models.User;
+import com.example.EventManagement.Repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-class OwnerServiceTests {
+class UserServiceTests {
 
 	@InjectMocks
-	private OwnerServiceImp ownerServiceImp;
+	private UserServiceImp userServiceImp;
 
 	@Mock
-	private OwnerRepository mockOwnerRepository;
+	private UserRepository mockOwnerRepository;
 
 	@Mock
-	private Owner owner;
+	private User user;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		owner = new Owner("Jamie");
-		owner.setId(1);
+		user = new User("Jamie", "Trainee");
+		user.setId(1);
 
 	}
 
@@ -45,32 +45,32 @@ class OwnerServiceTests {
 	void arrangeOwnerObject_actOwner_assertCheckOwnerSaveInDB() {
 		
 		//arrange
-		when(mockOwnerRepository.save(owner)).thenReturn(owner);
+		when(mockOwnerRepository.save(user)).thenReturn(user);
 		//act
-		Owner result = ownerServiceImp.saveOwner(owner);
+		User result = userServiceImp.saveOwner(user);
 		
 		//assert
 		assertThat(result).isNotNull();
-		assertThat(result.getId()).isEqualTo(owner.getId());
-		assertThat(result.getOwnerName()).isEqualTo(owner.getOwnerName());
-		verify(mockOwnerRepository,times(1)).save(owner);
+		assertThat(result.getId()).isEqualTo(user.getId());
+		assertThat(result.getUsername()).isEqualTo(user.getUsername());
+		verify(mockOwnerRepository,times(1)).save(user);
 
 	}
 
 	@Test
 	@DisplayName("Find Owner By ID")
 	void arrangeOwnerObject_actfindOwner_assertCheckOwnerIsCorrect() {
-		Optional<Owner> optionalOwner = Optional.of(owner);
+		Optional<User> optionalOwner = Optional.of(user);
 		Integer id = 1;
 		// arrange
 		when(mockOwnerRepository.findById(id)).thenReturn(optionalOwner);
 		// act
-		Owner result = ownerServiceImp.findOwnerById(id);
+		User result = userServiceImp.findOwnerById(id);
 
 		// assert
 		assertThat(result).isNotNull();
-		assertThat(result.getId()).isEqualTo(owner.getId());
-		assertThat(result.getOwnerName()).isEqualTo(owner.getOwnerName());
+		assertThat(result.getId()).isEqualTo(user.getId());
+		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		verify(mockOwnerRepository, times(1)).findById(id);
 
 	}
@@ -84,7 +84,7 @@ class OwnerServiceTests {
 		// arrange
 		when(mockOwnerRepository.existsById(id)).thenReturn(true);
 		// act
-		boolean result = ownerServiceImp.deleteOwnerById(id);
+		boolean result = userServiceImp.deleteOwnerById(id);
 
 		// assert
 		assertThat(result).isEqualTo(true);
@@ -101,7 +101,7 @@ class OwnerServiceTests {
 		// arrange
 		when(mockOwnerRepository.existsById(id)).thenReturn(false);
 		// act
-		boolean result = ownerServiceImp.deleteOwnerById(id);
+		boolean result = userServiceImp.deleteOwnerById(id);
 
 		// assert
 		assertThat(result).isEqualTo(false);
@@ -113,18 +113,18 @@ class OwnerServiceTests {
 	@DisplayName("Get all Owners")
 	void arrangeOwnerList_actFindOwner_assertGetOwnerList() {
 
-		List<Owner> owners = new ArrayList<>();
-		owners.add(owner);
+		List<User> users = new ArrayList<>();
+		users.add(user);
 		// arrange
-		when(mockOwnerRepository.findAll()).thenReturn(owners);
+		when(mockOwnerRepository.findAll()).thenReturn(users);
 
 		// act
 
-		List<Owner> result = ownerServiceImp.getAllOwners();
+		List<User> result = userServiceImp.getAllOwners();
 		// assert
 		assertThat(result).isNotNull();
 		assertThat(result.size()).isEqualTo(1);
-		assertThat(result.get(0).getOwnerName()).isEqualTo(owner.getOwnerName());
+		assertThat(result.get(0).getUsername()).isEqualTo(user.getUsername());
 		verify(mockOwnerRepository, times(1)).findAll();
 	}
 
@@ -137,11 +137,11 @@ class OwnerServiceTests {
 		// arrange
 		when(mockOwnerRepository.existsById(id)).thenReturn(true);
 		// act
-		boolean result = ownerServiceImp.updateOwnerById(id, owner);
+		boolean result = userServiceImp.updateOwnerById(id, user);
 
 		// assert
 		assertThat(result).isEqualTo(true);
-		verify(mockOwnerRepository, times(1)).save(owner);
+		verify(mockOwnerRepository, times(1)).save(user);
 
 	}
 
@@ -154,18 +154,18 @@ class OwnerServiceTests {
 		// arrange
 		when(mockOwnerRepository.existsById(id)).thenReturn(false);
 		// act
-		boolean result = ownerServiceImp.updateOwnerById(id, owner);
+		boolean result = userServiceImp.updateOwnerById(id, user);
 
 		// assert
 		assertThat(result).isEqualTo(false);
-		verify(mockOwnerRepository, times(0)).save(owner);
+		verify(mockOwnerRepository, times(0)).save(user);
 
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 
-		owner = null;
+		user = null;
 
 	}
 
