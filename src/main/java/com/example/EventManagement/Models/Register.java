@@ -22,12 +22,12 @@ public class Register {
 	private Boolean attended;
 
 	@OneToOne
-	@JoinColumn(name = "FK_PARTICIPANT_ID")
-	private Participant participant;
-
-	@OneToOne
 	@JoinColumn(name = "FK_EVENT_ID")
 	private Event event;
+
+	@OneToOne
+	@JoinColumn(name = "FK_USER_ID")
+	private User users;
 
 	public Register() {
 
@@ -52,14 +52,6 @@ public class Register {
 
 	public void setAttended(Boolean attended) {
 		this.attended = attended;
-	}
-
-	public Participant getParticpant() {
-		return participant;
-	}
-
-	public void setParticpant(Participant particpant) {
-		this.participant = particpant;
 	}
 
 	public Event getEvent() {

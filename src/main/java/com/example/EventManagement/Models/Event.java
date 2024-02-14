@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -31,16 +32,13 @@ public class Event {
 	@NotBlank(message = "Please add a Location")
 	private String location;
 
-	@ManyToOne
-	@JoinColumn(name = "FK_OWNER_ID")
-	private Owner owner;
+	@OneToOne
+	@JoinColumn(name = "FK_ORGANISER_ID")
+	private User organiser;
 
 	@ManyToOne
 	@JoinColumn(name = "FK_PARTICIPANT_ID")
-	private Participant participants;
-
-//	@OneToMany(mappedBy = "event")
-//	private List<Feedback> feedback;
+	private User participants;
 
 	public Event() {
 
@@ -85,28 +83,5 @@ public class Event {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-	public Owner getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Owner owner) {
-		this.owner = owner;
-	}
-
-	public Participant getParticpants() {
-		return participants;
-	}
-
-	public void setParticpants(Participant particpants) {
-		this.participants = particpants;
-	}
-
-	/*
-	 * public List<Feedback> getFeedback() { return feedback; }
-	 * 
-	 * public void setFeedback(List<Feedback> feedback) { this.feedback = feedback;
-	 * }
-	 */
 
 }

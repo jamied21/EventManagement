@@ -29,12 +29,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.EventManagement.Models.Owner;
-import com.example.EventManagement.Services.OwnerServiceImp;
+import com.example.EventManagement.Models.User;
+import com.example.EventManagement.Services.UserServiceImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(OwnerController.class)
-class OwnerControllerTests {
+@WebMvcTest(UserController.class)
+class UserControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -42,27 +42,27 @@ class OwnerControllerTests {
 	@Autowired
 	private ObjectMapper objectMapper; // needed to convert to JSON object
 
-	private Owner owner;
+	private User user;
 
 	@MockBean
-	private OwnerServiceImp mockOwnerService;
+	private UserServiceImp mockOwnerService;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		owner = new Owner("Jamie");
-		owner.setOwnerName("Bob");
-		owner.setId(1);
+		user = new User("Jamie", "Trainee");
+		user.setUsername("Bob");
+		user.setId(1);
 	}
 
 	@Test
 	@DisplayName("FindAllOwners")
 	public void givenNothing_whenFindAllOwner_thenReturnAllSavedOwner() throws Exception {
-		List<Owner> owners = List.of(owner);
-		when(mockOwnerService.getAllOwners()).thenReturn(owners);
+		List<User> users = List.of(user);
+		when(mockOwnerService.getAllOwners()).thenReturn(users);
 
-		mockMvc.perform(get("/api/v1/owner")).andDo(print()).andExpect(status().isOk())
+		mockMvc.perform(get("/api/v1/user")).andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$", Matchers.hasSize(1)))
-				.andExpect(jsonPath("$[0].ownerName", is(owner.getOwnerName())));
+				.andExpect(jsonPath("$[0].username", is(user.getUsername())));
 
 		verify(mockOwnerService, times(1)).getAllOwners();
 
@@ -76,7 +76,7 @@ class OwnerControllerTests {
 		given(mockOwnerService.deleteOwnerById(id)).willReturn(true);
 
 		// when-then
-		mockMvc.perform(delete("/api/v1/owner/1")).andDo(print()).andExpect(status().isOk());
+		mockMvc.perform(delete("/api/v1/user/1")).andDo(print()).andExpect(status().isOk());
 
 		verify(mockOwnerService, times(1)).deleteOwnerById(id);
 	}
@@ -89,7 +89,7 @@ class OwnerControllerTests {
 		given(mockOwnerService.deleteOwnerById(id)).willReturn(false);
 
 		// when-then
-		mockMvc.perform(delete("/api/v1/owner/2")).andDo(print()).andExpect(status().isNotFound());
+		mockMvc.perform(delete("/api/v1/user/2")).andDo(print()).andExpect(status().isNotFound());
 
 		verify(mockOwnerService, times(1)).deleteOwnerById(id);
 
@@ -99,12 +99,12 @@ class OwnerControllerTests {
 	@DisplayName("findOwnerByID--positive")
 	void givenOwnerId_whenFindOwnerById_thenReturnOwnerObjectFromDB() throws Exception {
 		// arrange
-		given(mockOwnerService.findOwnerById(1)).willReturn(owner);
+		given(mockOwnerService.findOwnerById(1)).willReturn(user);
 		// act-assert
 
 		// @Formatter: off
-		mockMvc.perform(get("/api/v1/owner/1")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.ownerName", is(owner.getOwnerName())));
+		mockMvc.perform(get("/api/v1/user/1")).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.username", is(user.getUsername())));
 
 		// @Formatter: on
 
@@ -120,7 +120,7 @@ class OwnerControllerTests {
 		// act-assert
 
 		// @Formatter: off
-		mockMvc.perform(get("/api/v1/owner/2")).andDo(print()).andExpect(status().isNotFound());
+		mockMvc.perform(get("/api/v1/user/2")).andDo(print()).andExpect(status().isNotFound());
 
 		// @Formatter: on
 
@@ -130,21 +130,21 @@ class OwnerControllerTests {
 
 	@Test
 	public void testUpdateOwnerById() throws Exception {
-	    when(mockOwnerService.updateOwnerById(eq(1), any(Owner.class))).thenReturn(true);
+	    when(mockOwnerService.updateOwnerById(eq(1), any(User.class))).thenReturn(true);
 
-	    mockMvc.perform(put("/api/v1/owner/{id}", 1)
+	    mockMvc.perform(put("/api/v1/user/{id}", 1)
 	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objectMapper.writeValueAsString(owner)))
+	            .content(objectMapper.writeValueAsString(user)))
 	            .andExpect(status().isOk());
 	}
 
 	@Test
 	public void testUpdateOwnerByIdNotFound() throws Exception {
-	    when(mockOwnerService.updateOwnerById(1, owner)).thenReturn(false);
+	    when(mockOwnerService.updateOwnerById(1, user)).thenReturn(false);
 
-	    mockMvc.perform(put("/api/v1/owner/{id}", 1)
+	    mockMvc.perform(put("/api/v1/user/{id}", 1)
 	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objectMapper.writeValueAsString(owner)))
+	            .content(objectMapper.writeValueAsString(user)))
 	            .andExpect(status().isNotFound());
 	}
 
@@ -152,49 +152,49 @@ class OwnerControllerTests {
 	@DisplayName("saveOwner-Positive")
 	public void givenOwnerObject_whenSaveOwner_thenReturnSavedOwner() throws Exception {
 		// given
-		given(mockOwnerService.saveOwner(ArgumentMatchers.any(Owner.class))).willReturn(owner);
+		given(mockOwnerService.saveOwner(ArgumentMatchers.any(User.class))).willReturn(user);
 
 		// when & then
 
 		// @formatter:off
 
-		mockMvc.perform(post("/api/v1/owner")
+		mockMvc.perform(post("/api/v1/user")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(owner)))
+				.content(objectMapper.writeValueAsString(user)))
 				.andDo(print())
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.ownerName", is(owner.getOwnerName())));
+				.andExpect(jsonPath("$.username", is(user.getUsername())));
 		
 		// @formatter:on
 
-		verify(mockOwnerService, times(1)).saveOwner(ArgumentMatchers.any(Owner.class));
+		verify(mockOwnerService, times(1)).saveOwner(ArgumentMatchers.any(User.class));
 	}
 
 	@Test
 	@DisplayName("saveOwner-Negative")
 	public void givenOwnerObject_whenSaveOwner_thenReturnError() throws Exception {
 		// given
-		owner.setOwnerName(null);
-		given(mockOwnerService.saveOwner(ArgumentMatchers.any(Owner.class))).willReturn(owner);
+		user.setUsername(null);
+		given(mockOwnerService.saveOwner(ArgumentMatchers.any(User.class))).willReturn(user);
 
 		// when & then
 
 		// @formatter:off
 
-		mockMvc.perform(post("/api/v1/owner")
+		mockMvc.perform(post("/api/v1/user")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(owner)))
+				.content(objectMapper.writeValueAsString(user)))
 				.andDo(print())
 				.andExpect(status().isBadRequest());
 		
 		// @formatter:on
 
-		verify(mockOwnerService, times(0)).saveOwner(ArgumentMatchers.any(Owner.class));
+		verify(mockOwnerService, times(0)).saveOwner(ArgumentMatchers.any(User.class));
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		owner = null;
+		user = null;
 	}
 
 }

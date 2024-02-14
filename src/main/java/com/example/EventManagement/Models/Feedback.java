@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -27,13 +26,9 @@ public class Feedback {
 	@NotNull(message = "Please provide a rating")
 	private Integer rating;
 
-	@ManyToOne
-	@JoinColumn(name = "FK_EVENT_ID")
-	private Event event;
-
 	@OneToOne
-	@JoinColumn(name = "FK_PARTICIPANT_ID")
-	private Participant participant;
+	@JoinColumn(name = "FK_REGISTER_ID")
+	private Register register;
 
 	public Feedback() {
 
@@ -67,22 +62,6 @@ public class Feedback {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
-	}
-
-	public Event getEvent() {
-		return event;
-	}
-
-	public void setEvent(Event event) {
-		this.event = event;
-	}
-
-	public Participant getParticipant() {
-		return participant;
-	}
-
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
 	}
 
 }
