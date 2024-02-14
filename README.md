@@ -1,1 +1,2 @@
-# EventManagement
+# Event Management
+Jamie smells
