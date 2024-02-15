@@ -1,11 +1,13 @@
 package com.example.EventManagement.Models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,11 +23,17 @@ public class Register {
 	@NotNull(message = "Please add attendance")
 	private Boolean attended;
 
-	@OneToOne
+	@NotNull(message = "Please add a Registration Time")
+	private LocalDateTime regsitrationTime;
+
+	// Can be nulllable
+	private LocalDateTime checkInTime;
+
+	@ManyToOne
 	@JoinColumn(name = "FK_EVENT_ID")
 	private Event event;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "FK_USER_ID")
 	private User users;
 
@@ -33,9 +41,11 @@ public class Register {
 
 	}
 
-	public Register(Boolean attended) {
+	public Register(Boolean attended, LocalDateTime regsitrationTime, LocalDateTime checkInTime) {
 
 		this.attended = attended;
+		this.regsitrationTime = regsitrationTime;
+		this.checkInTime = checkInTime;
 	}
 
 	public Integer getId() {
