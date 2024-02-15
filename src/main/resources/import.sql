@@ -3,11 +3,12 @@ INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'Jo
 INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'AliceSmith', 'Trainer');
 INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'BobJohnson', 'Trainee');
 
-
 -- Sample data for Events
-INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event1', '2024-02-14T12:00:00', 'Location1', (SELECT id FROM Event_Users WHERE username = 'JohnDoe' AND role = 'Consultant'), (SELECT id FROM Event_Users WHERE username = 'AliceSmith' AND role = 'Trainer'));
-INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event2', '2024-02-15T14:30:00', 'Location2', (SELECT id FROM Event_Users WHERE username = 'BobJohnson' AND role = 'Trainee'), (SELECT id FROM Event_Users WHERE username = 'JohnDoe' AND role = 'Consultant'));
-INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID, FK_PARTICIPANT_ID) VALUES (NEXTVAL('event_id_seq'), 'Event3', '2024-02-16T10:00:00', 'Location3', (SELECT id FROM Event_Users WHERE username = 'AliceSmith' AND role = 'Trainer'), (SELECT id FROM Event_Users WHERE username = 'BobJohnson' AND role = 'Trainee'));
+INSERT INTO Events (id, name, Event_Date, location, FK_ORGANISER_ID) VALUES (1, 'Event1', '2024-02-14T12:00:00', 'Location1', 1); -- JohnDoe as organizer
+
+INSERT INTO Events (id, name, Event_Date, location, FK_ORGANISER_ID) VALUES (2, 'Event2', '2024-02-15T14:30:00', 'Location2', 3); -- BobJohnson as organizer
+
+INSERT INTO Events (id, name, Event_Date, location, FK_ORGANISER_ID) VALUES (3, 'Event3', '2024-02-16T10:00:00', 'Location3', 2); -- AliceSmith as organizer
 
 -- Sample data for Register
 INSERT INTO Register (id, attended, FK_EVENT_ID, FK_USER_ID) VALUES (NEXTVAL('register_id_seq'), true, (SELECT id FROM Events WHERE name = 'Event1'), (SELECT id FROM Event_Users WHERE username = 'JohnDoe'));
