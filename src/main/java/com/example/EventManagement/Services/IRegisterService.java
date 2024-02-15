@@ -15,4 +15,7 @@ public interface IRegisterService {
 	boolean updateRegisterById(Integer id, Register register);
 
 	boolean deleteRegisterById(Integer id);
+
+	List<Register> findRegistrationsByUserId(Integer userId);
+
 }

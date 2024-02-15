@@ -1,6 +1,7 @@
 package com.example.EventManagement.Controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -97,6 +98,12 @@ public class RegisterController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+	}
+
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
+		List<Register> registrations = registerService.findRegistrationsByUserId(userId);
+		return new ResponseEntity<>(registrations, HttpStatus.OK);
 	}
 
 }

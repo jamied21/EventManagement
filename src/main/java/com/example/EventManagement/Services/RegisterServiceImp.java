@@ -64,4 +64,9 @@ public class RegisterServiceImp implements IRegisterService {
 
 	}
 
+	@Override
+	public List<Register> findRegistrationsByUserId(Integer userId) {
+		return registerRepository.findByUsersId(userId);
+	}
+
 }
