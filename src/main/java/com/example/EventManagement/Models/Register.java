@@ -64,6 +64,30 @@ public class Register {
 		this.attended = attended;
 	}
 
+	public LocalDateTime getRegsitrationTime() {
+		return regsitrationTime;
+	}
+
+	public void setRegsitrationTime(LocalDateTime regsitrationTime) {
+		this.regsitrationTime = regsitrationTime;
+	}
+
+	public LocalDateTime getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(LocalDateTime checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public User getUsers() {
+		return users;
+	}
+
+	public void setUsers(User users) {
+		this.users = users;
+	}
+
 	public Event getEvent() {
 		return event;
 	}

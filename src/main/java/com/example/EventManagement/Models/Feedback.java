@@ -64,4 +64,12 @@ public class Feedback {
 		this.rating = rating;
 	}
 
+	public Register getRegister() {
+		return register;
+	}
+
+	public void setRegister(Register register) {
+		this.register = register;
+	}
+
 }
