@@ -1,15 +1,13 @@
 package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -33,13 +31,9 @@ public class Event {
 	@NotBlank(message = "Please add a Location")
 	private String location;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "FK_ORGANISER_ID")
 	private User organiser;
-
-	@OneToMany
-	@JoinColumn(name = "FK_PARTICIPANT_ID")
-	private List<User> participants;
 
 	public Event() {
 
@@ -91,14 +85,6 @@ public class Event {
 
 	public void setOrganiser(User organiser) {
 		this.organiser = organiser;
-	}
-
-	public List<User> getParticipants() {
-		return participants;
-	}
-
-	public void setParticipants(List<User> participants) {
-		this.participants = participants;
 	}
 
 }

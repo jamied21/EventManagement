@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hamcrest.Matchers;
@@ -48,7 +49,7 @@ class RegisterControllerTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		register = new Register(true);
+		register = new Register(true, LocalDateTime.of(2024, 2, 21, 15, 30), LocalDateTime.of(2025, 2, 21, 15, 30));
 		register.setId(1);
 	}
 
