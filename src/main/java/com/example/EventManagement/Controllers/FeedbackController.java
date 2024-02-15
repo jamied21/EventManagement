@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EventManagement.Models.Feedback;
+import com.example.EventManagement.Models.Register;
 import com.example.EventManagement.Services.IFeedbackService;
 
 import jakarta.validation.Valid;
@@ -99,4 +100,8 @@ public class FeedbackController {
 
 	}
 
+	@GetMapping("/register/{registerId}")
+	public Register findRegisterAndEventById(@PathVariable Integer registerId) {
+		return feedbackService.findRegisterAndEventById(registerId);
+	}
 }

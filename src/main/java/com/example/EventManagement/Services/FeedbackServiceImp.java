@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.EventManagement.Exceptions.RegisterNotFoundException;
 import com.example.EventManagement.Models.Feedback;
+import com.example.EventManagement.Models.Register;
 import com.example.EventManagement.Repository.FeedbackRepository;
 
 import jakarta.transaction.Transactional;
@@ -61,6 +63,20 @@ public class FeedbackServiceImp implements IFeedbackService {
 		}
 
 		return false;
+
+	}
+
+	public Register findRegisterAndEventById(Integer registerId) {
+		Register register = feedbackRepository.findRegisterById(registerId);
+
+		if (register != null) {
+
+			register.getEvent();
+
+			return register;
+		} else {
+			throw new RegisterNotFoundException("Register with ID " + registerId + " not found");
+		}
 
 	}
 
