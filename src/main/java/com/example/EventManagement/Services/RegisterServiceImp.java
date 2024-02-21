@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.EventManagement.Models.Register;
+import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Repository.RegisterRepository;
 
 import jakarta.transaction.Transactional;
@@ -62,6 +63,15 @@ public class RegisterServiceImp implements IRegisterService {
 
 		return false;
 
+	}
+
+	@Override
+	public List<Register> findRegistrationsByUserId(Integer userId) {
+		return registerRepository.findByUsersId(userId);
+	}
+
+	public List<User> getAttendingUsersForEvent(Integer eventId) {
+		return registerRepository.findAttendingUsersByEventId(eventId);
 	}
 
 }

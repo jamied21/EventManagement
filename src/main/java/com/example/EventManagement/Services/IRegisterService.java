@@ -3,6 +3,7 @@ package com.example.EventManagement.Services;
 import java.util.List;
 
 import com.example.EventManagement.Models.Register;
+import com.example.EventManagement.Models.User;
 
 public interface IRegisterService {
 
@@ -15,4 +16,9 @@ public interface IRegisterService {
 	boolean updateRegisterById(Integer id, Register register);
 
 	boolean deleteRegisterById(Integer id);
+
+	List<Register> findRegistrationsByUserId(Integer userId);
+
+	List<User> getAttendingUsersForEvent(Integer eventId);
+
 }
