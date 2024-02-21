@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EventManagement.Models.Register;
+import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.IRegisterService;
 
 import jakarta.validation.Valid;
@@ -104,6 +105,11 @@ public class RegisterController {
 	public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
 		List<Register> registrations = registerService.findRegistrationsByUserId(userId);
 		return new ResponseEntity<>(registrations, HttpStatus.OK);
+	}
+
+	@GetMapping("/attended-users/{eventId}")
+	public List<User> getAttendedUsersByEvent(@PathVariable Integer eventId) {
+		return registerService.getAttendingUsersForEvent(eventId);
 	}
 
 }
