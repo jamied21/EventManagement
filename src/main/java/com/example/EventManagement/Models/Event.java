@@ -1,15 +1,18 @@
 package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -37,6 +40,10 @@ public class Event {
 	@JoinColumn(name = "FK_ORGANISER_ID")
 	@JsonIgnore
 	private User organiser;
+
+	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<Register> registers;
 
 	public Event() {
 
