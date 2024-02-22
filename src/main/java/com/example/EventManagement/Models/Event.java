@@ -2,6 +2,8 @@ package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +35,7 @@ public class Event {
 
 	@ManyToOne
 	@JoinColumn(name = "FK_ORGANISER_ID")
+	@JsonIgnore
 	private User organiser;
 
 	public Event() {

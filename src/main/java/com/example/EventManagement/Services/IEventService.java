@@ -15,4 +15,6 @@ public interface IEventService {
 	boolean updateEventById(Integer id, Event event);
 
 	boolean deleteEventById(Integer id);
+
+	List<Event> findEventsByOrganiserId(Integer organiserId);
 }

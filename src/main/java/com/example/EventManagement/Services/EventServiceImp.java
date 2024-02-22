@@ -63,4 +63,8 @@ public class EventServiceImp implements IEventService {
 		return false;
 	}
 
+	public List<Event> findEventsByOrganiserId(Integer organiserId) {
+		return eventRepository.findByOrganiserId(organiserId);
+	}
+
 }
