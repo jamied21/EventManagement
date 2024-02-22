@@ -1,3 +1,6 @@
+/*INSERT INTO Roles (role_Id, authority) VALUES (NEXTVAL('role_id_seq'), 'ADMIN');*/
+
+
 INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'JohnDoe', 'Consultant');
 INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'AliceSmith', 'Trainer');
 INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'BobJohnson', 'Trainee');
