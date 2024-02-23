@@ -2,12 +2,14 @@ package com.example.EventManagement.Models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
 
@@ -36,6 +38,9 @@ public class Register {
 	@ManyToOne
 	@JoinColumn(name = "FK_USER_ID")
 	private User users;
+
+	@OneToOne(mappedBy = "register", cascade = CascadeType.REMOVE)
+	private Feedback feedback;
 
 	public Register() {
 
