@@ -3,6 +3,7 @@ package com.example.EventManagement.Controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.IUserService;
+import com.example.EventManagement.Services.UserSecurityService;
 
 import jakarta.validation.Valid;
 
@@ -31,6 +33,15 @@ public class UserController {
 
 	public UserController(IUserService userService) {
 		this.userService = userService;
+	}
+
+	@Autowired
+	private UserSecurityService userSecurityService;
+
+	@GetMapping("/")
+	public String helloUserController() {
+		return "User access level";
+
 	}
 
 	@PostMapping

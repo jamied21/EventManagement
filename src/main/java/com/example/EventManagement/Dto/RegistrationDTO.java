@@ -6,7 +6,7 @@ public class RegistrationDTO {
 	private String password;
 
 	public RegistrationDTO() {
-		super();
+
 	}
 
 	public RegistrationDTO(String username, String password) {
@@ -29,6 +29,11 @@ public class RegistrationDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Registration info username=" + username + ", password=" + password + "";
 	}
 
 }

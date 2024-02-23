@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.EventManagement.Dto.LoginResponseDTO;
 import com.example.EventManagement.Dto.RegistrationDTO;
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.AuthenticationService;
@@ -19,10 +20,15 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	@PostMapping({ "/register" })
+	@PostMapping("/register")
 	public User registerUser(@RequestBody RegistrationDTO body) {
 		return authenticationService.registerUser(body.getUsername(), body.getPassword());
 
+	}
+
+	@PostMapping("/login")
+	public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body) {
+		return authenticationService.loginUser(body.getUsername(), body.getPassword());
 	}
 
 }

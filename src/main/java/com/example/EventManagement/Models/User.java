@@ -32,7 +32,7 @@ public class User implements UserDetails {
 	@NotBlank(message = "Provide an User Name")
 	private String username;
 
-	@NotBlank(message = "Provide a password")
+	// @NotBlank(message = "Provide a password")
 	private String password;
 
 	// @NotBlank(message = "Provide a Role Name Consultant, Trainer or Trainee")
@@ -44,7 +44,7 @@ public class User implements UserDetails {
 	private Set<Role> authorities;
 
 	public User() {
-
+		super();
 		this.authorities = new HashSet<Role>();
 	}
 
@@ -85,7 +85,7 @@ public class User implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
+
 		return this.password;
 	}
 
