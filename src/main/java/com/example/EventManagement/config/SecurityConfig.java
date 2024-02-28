@@ -55,6 +55,10 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> {
+			// Enables swagger to not have aunthentication
+			auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
+			// Enables all other request to not have authentication
+			auth.requestMatchers("/api/v1/**").permitAll();
 			auth.requestMatchers("/api/v1/auth/**").permitAll();
 			auth.requestMatchers("/api/v1/admin/**").hasRole("ADMIN"); // Sets admin role
 			auth.requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "USER");

@@ -6,8 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.EventManagement.Models.Role;
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Repository.UserRepository;
 
@@ -32,10 +35,13 @@ class UserServiceTests {
 
 	@Mock
 	private User user;
+	private Role role;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		user = new User("Jamie", "Trainee");
+		Set<Role> roles = new HashSet<>();
+		roles.add(new Role("ADMIN"));
+		user = new User(1, "Jamie", "password", "Trainee", roles);
 		user.setId(1);
 
 	}

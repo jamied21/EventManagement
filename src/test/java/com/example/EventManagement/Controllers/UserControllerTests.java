@@ -15,7 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +31,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.EventManagement.Models.Role;
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.UserServiceImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +52,9 @@ class UserControllerTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		user = new User("Jamie", "Trainee");
+		Set<Role> roles = new HashSet<>();
+		roles.add(new Role("ADMIN"));
+		user = new User(1, "Jamie", "password", "Trainee", roles);
 		user.setUsername("Bob");
 		user.setId(1);
 	}
