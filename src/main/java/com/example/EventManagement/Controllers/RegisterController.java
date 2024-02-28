@@ -1,5 +1,7 @@
 package com.example.EventManagement.Controllers;
 
+import java.util.Arrays;
+import java.util.stream.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,87 +31,100 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class RegisterController {
 
-	private IRegisterService registerService;
+  private IRegisterService registerService;
 
-	public RegisterController(IRegisterService registerService) {
-		this.registerService = registerService;
-	}
+  public RegisterController(IRegisterService registerService) {
+    this.registerService = registerService;
+  }
 
-	@PostMapping
-	public ResponseEntity<?> saveRegister(@Valid @RequestBody Register register, BindingResult bindingResult) {
+  @PostMapping
+  public ResponseEntity<?> saveRegister(@Valid @RequestBody Register register, BindingResult bindingResult) {
 
-		if (bindingResult.hasErrors()) {
-			Map<String, String> errors = new HashMap<>();
+    if (bindingResult.hasErrors()) {
+      Map<String, String> errors = new HashMap<>();
 
-			for (FieldError error : bindingResult.getFieldErrors()) {
+      for (FieldError error : bindingResult.getFieldErrors()) {
 
-				errors.put(error.getField(), error.getDefaultMessage());
-			}
+        errors.put(error.getField(), error.getDefaultMessage());
+      }
 
-			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 
-		}
+    }
 
-		return new ResponseEntity<>(this.registerService.saveRegister(register), HttpStatus.CREATED);
+    return new ResponseEntity<>(this.registerService.saveRegister(register), HttpStatus.CREATED);
 
-	}
+  }
 
-	@GetMapping
-	public ResponseEntity<?> getAllRegister() {
-		return new ResponseEntity<>(this.registerService.getAllRegisters(), HttpStatus.OK);
-	}
+  @GetMapping
+  public ResponseEntity<?> getAllRegister() {
+    return new ResponseEntity<>(this.registerService.getAllRegisters(), HttpStatus.OK);
+  }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getRegisterById(@PathVariable Integer id)
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getRegisterById(@PathVariable Integer id)
 
-	{
-		Register result = this.registerService.findRegisterById(id);
-		if (result == null) {
+  {
+    Register result = this.registerService.findRegisterById(id);
+    if (result == null) {
 
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-		}
+    }
 
-		return new ResponseEntity<>(result, HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
 
-	}
+  }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteRegisterById(@PathVariable Integer id) {
+  @PostMapping("/event/{eventId}")
+  public ResponseEntity<?> registerUsersForEvent(@PathVariable Integer eventId, @RequestBody Integer[] userIds) {
+    List<Register> registers = this.registerService.registerUsersToEvent(
+        eventId,
+        Arrays
+            .stream(userIds)
+            .collect(Collectors.toSet()));
+    return new ResponseEntity<>(registers, HttpStatus.OK);
+  }
 
-		boolean result = this.registerService.deleteRegisterById(id);
+  @DeleteMapping("/event/{eventId}/user/{userId}")
+  public ResponseEntity<?> unregisterUsersForEvent(@PathVariable Integer eventId, @PathVariable Integer userId) {
+    return null;
+  }
 
-		if (result) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteRegisterById(@PathVariable Integer id) {
+    boolean result = this.registerService.deleteRegisterById(id);
+    if (result) {
 
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
+      return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-	}
+  }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateRegisterById(@PathVariable Integer id, @RequestBody Register register) {
+  @PutMapping("/{id}")
+  public ResponseEntity<?> updateRegisterById(@PathVariable Integer id, @RequestBody Register register) {
 
-		boolean result = this.registerService.updateRegisterById(id, register);
+    boolean result = this.registerService.updateRegisterById(id, register);
 
-		if (result) {
-			return new ResponseEntity<>(register, HttpStatus.OK);
-		}
+    if (result) {
+      return new ResponseEntity<>(register, HttpStatus.OK);
+    }
 
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-	}
+  }
 
-	@GetMapping("/user/{userId}")
-	public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
-		List<Register> registrations = registerService.findRegistrationsByUserId(userId);
-		return new ResponseEntity<>(registrations, HttpStatus.OK);
-	}
+  @GetMapping("/user/{userId}")
+  public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
+    List<Register> registrations = registerService.findRegistrationsByUserId(userId);
+    return new ResponseEntity<>(registrations, HttpStatus.OK);
+  }
 
-	@GetMapping("/attended-users/{eventId}")
-	public List<User> getAttendedUsersByEvent(@PathVariable Integer eventId) {
-		return registerService.getAttendingUsersForEvent(eventId);
-	}
+  @GetMapping("/attended-users/{eventId}")
+  public List<User> getAttendedUsersByEvent(@PathVariable Integer eventId) {
+    return registerService.getAttendingUsersForEvent(eventId);
+  }
 
 }

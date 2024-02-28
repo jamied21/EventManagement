@@ -34,3 +34,4 @@ INSERT INTO Register (id, attended, Regsitration_Time, Check_In_Time, FK_EVENT_I
 INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('feedback_id_seq'), 'Great event, learned a lot!', 5, 1);
 INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('feedback_id_seq'), 'The workshop was informative.', 4, 2);
 INSERT INTO Feedback (id, comment, rating, FK_REGISTER_ID) VALUES (NEXTVAL('feedback_id_seq'), 'Good networking opportunity.', 4, 3);
+

@@ -1,6 +1,7 @@
 package com.example.EventManagement.Controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -97,6 +98,11 @@ public class EventController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+	}
+
+	@GetMapping("/organiser/{organiserId}")
+	public List<Event> getEventsByOrganiserId(@PathVariable Integer organiserId) {
+		return eventService.findEventsByOrganiserId(organiserId);
 	}
 
 }
