@@ -49,7 +49,7 @@ class UserControllerTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		user = new User("Jamie", "Trainee");
+		user = new User("Jamie", "password", "Trainee");
 		user.setUsername("Bob");
 		user.setId(1);
 	}

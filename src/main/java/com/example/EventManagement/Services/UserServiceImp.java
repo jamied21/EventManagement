@@ -63,4 +63,9 @@ public class UserServiceImp implements IUserService {
 		return false;
 
 	}
+
+	@Override
+	public User findByUsername(String username) {
+		return this.userRepository.findUserByUsername(username);
+	}
 }

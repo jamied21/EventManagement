@@ -35,7 +35,7 @@ class UserServiceTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		user = new User("Jamie", "Trainee");
+		user = new User("Jamie", "Password", "Trainee");
 		user.setId(1);
 
 	}

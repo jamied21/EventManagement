@@ -16,4 +16,6 @@ public interface IUserService {
 
 	boolean deleteOwnerById(Integer id);
 
+	User findByUsername(String username);
+
 }

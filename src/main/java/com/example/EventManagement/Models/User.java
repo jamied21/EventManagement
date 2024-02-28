@@ -19,16 +19,20 @@ public class User {
 	@NotBlank(message = "Provide an User Name")
 	private String username;
 
-	@NotBlank(message = "Provide a Role Name Consultant, Trainer or Trainee")
+	@NotBlank(message = "Provide a password")
+	private String password;
+
+	// @NotBlank(message = "Provide a Role Name Consultant, Trainer or Trainee")
 	private String role;
 
 	public User() {
 
 	}
 
-	public User(String username, String role) {
+	public User(String username, String password, String role) {
 		super();
 		this.username = username;
+		this.password = password;
 		this.role = role;
 	}
 
@@ -46,6 +50,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRole() {

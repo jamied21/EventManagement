@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,11 +53,13 @@ public class UserController {
 
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<?> getAllOwner() {
 		return new ResponseEntity<>(this.userService.getAllOwners(), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOwnerById(@PathVariable Integer id)
 
@@ -72,6 +75,7 @@ public class UserController {
 
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteOwnerById(@PathVariable Integer id) {
 
@@ -86,6 +90,7 @@ public class UserController {
 
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOwnerById(@PathVariable Integer id, @RequestBody User user) {
 
