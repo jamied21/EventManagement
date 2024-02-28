@@ -59,6 +59,7 @@ public class SecurityConfig {
 			auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 			// Enables all other request to not have authentication
 			auth.requestMatchers("/api/v1/**").permitAll();
+			// auth.requestMatchers("/h2-console/**").permitAll().anyRequest().authenticated();
 			auth.requestMatchers("/api/v1/auth/**").permitAll();
 			auth.requestMatchers("/api/v1/admin/**").hasRole("ADMIN"); // Sets admin role
 			auth.requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "USER");
@@ -68,6 +69,7 @@ public class SecurityConfig {
 		});
 		http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.headers().frameOptions().sameOrigin();
 
 		return http.build();
 	}
