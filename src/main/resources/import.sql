@@ -1,11 +1,25 @@
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'John2001', 'Consultant');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'Maisy_Peters', 'Trainer');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'Bob99', 'Trainee');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'EmilySmith21', 'Consultant');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'AlexJohnson94', 'Trainer');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'SarahDoe03', 'Trainee');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'JakeBrown88', 'Consultant');
-INSERT INTO Event_Users (id, username, role) VALUES (NEXTVAL('user_id_seq'), 'SophiaAdams12', 'Trainer');
+
+INSERT INTO Roles (role_Id, authority) VALUES (NEXTVAL('role_id_seq'), 'ADMIN');
+INSERT INTO Roles (role_Id, authority) VALUES (NEXTVAL('role_id_seq'), 'USER');
+
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'John2001','zaha', 'Consultant');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'Maisy_Peters','password', 'Trainer');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'Bob99', 'safepassword','Trainee');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'EmilySmith21', 'reallysafepassword','Consultant');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'AlexJohnson94','safestpassword', 'Trainer');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'SarahDoe03','idunnowhattowrite', 'Trainee');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'JakeBrown88','iambored', 'Consultant');
+INSERT INTO Event_Users (id, username, password, role) VALUES (NEXTVAL('user_id_seq'), 'SophiaAdams12', 'iamtired', 'Trainer');
+
+-- Assigning roles to users
+INSERT INTO user_role (id, role_id) VALUES (1, 1);  -- Assign ADMIN role to user with id 1
+INSERT INTO user_role (id, role_id) VALUES (2, 2);  -- Assign USER role to user with id 2
+INSERT INTO user_role (id, role_id) VALUES (3, 2);
+INSERT INTO user_role (id, role_id) VALUES (4, 2);
+INSERT INTO user_role (id, role_id) VALUES (5, 2);
+INSERT INTO user_role (id, role_id) VALUES (6, 2);
+INSERT INTO user_role (id, role_id) VALUES (7, 2);
+INSERT INTO user_role (id, role_id) VALUES (8, 2);
 
 INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID) VALUES (NEXTVAL('event_id_seq'), 'Tech Conference', CURRENT_DATE + 3, 'Conference Center A', 1);
 INSERT INTO Events (id, name, EVENT_DATE, location, FK_ORGANISER_ID) VALUES (NEXTVAL('event_id_seq'), 'Data Science Symposium', CURRENT_DATE + 3, 'Convention Center B', 1);
