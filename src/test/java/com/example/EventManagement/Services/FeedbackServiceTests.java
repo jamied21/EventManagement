@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.EventManagement.Models.Event;
 import com.example.EventManagement.Models.Feedback;
+import com.example.EventManagement.Models.Register;
 import com.example.EventManagement.Repository.FeedbackRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,9 +36,24 @@ class FeedbackServiceTests {
 	@Mock
 	private Feedback feedback;
 
+	@Mock
+	private Event event;
+
+	@Mock
+	private Register register;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		feedback = new Feedback("Comment1", 5);
+
+		event = new Event("WWE RAW XIV", LocalDateTime.of(2024, 2, 21, 15, 30), "London");
+		event.setId(1);
+
+		register = new Register(true, LocalDateTime.of(2024, 2, 21, 15, 30), LocalDateTime.of(2025, 2, 21, 15, 30));
+		register.setId(1);
+
+		register.setEvent(event);
+		feedback.setRegister(register);
 
 	}
 
@@ -161,6 +179,22 @@ class FeedbackServiceTests {
 		assertThat(result).isEqualTo(false);
 		verify(mockFeedbackRepository, times(0)).save(feedback);
 
+	}
+
+	@Test
+	@DisplayName("Find Register by Feedback Id")
+	void testFindRegisterAndEventById_ValidRegisterId_ReturnsRegister() {
+		// Arrange
+		Integer registerId = 1;
+		when(mockFeedbackRepository.findRegisterById(registerId)).thenReturn(register);
+
+		// Act
+		Register result = feedbackServiceImp.findRegisterAndEventById(registerId);
+
+		// Assert
+		assertThat(result).isNotNull();
+		assertThat(result.getId()).isEqualTo(register.getId());
+		verify(mockFeedbackRepository, times(1)).findRegisterById(registerId);
 	}
 
 	@AfterEach
