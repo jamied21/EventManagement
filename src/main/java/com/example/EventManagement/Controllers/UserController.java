@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.IUserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -32,6 +38,13 @@ public class UserController {
 	public UserController(IUserService userService) {
 		this.userService = userService;
 	}
+
+	@Operation(summary = "Creates a new User")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "User resource successfully created.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "400", description = "User resource has invalid field(s).") })
 
 	@PostMapping
 	public ResponseEntity<?> saveOwner(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -52,10 +65,23 @@ public class UserController {
 
 	}
 
+	@Operation(summary = "Retrieves an User resource(s) from the database.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }) })
+
 	@GetMapping
 	public ResponseEntity<?> getAllOwner() {
 		return new ResponseEntity<>(this.userService.getAllOwners(), HttpStatus.OK);
 	}
+
+	@Operation(summary = "Retrieves an User resource from the database with the id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No User found for that id.") })
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOwnerById(@PathVariable Integer id)
@@ -72,6 +98,13 @@ public class UserController {
 
 	}
 
+	@Operation(summary = "Deletes an User resource from the database with the id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User resource successfully deleted.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No User found for that id.") })
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteOwnerById(@PathVariable Integer id) {
 
@@ -85,6 +118,13 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
+
+	@Operation(summary = "Updates new User")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User resource successfully updated and returned.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No User found for that id.") })
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOwnerById(@PathVariable Integer id, @RequestBody User user) {

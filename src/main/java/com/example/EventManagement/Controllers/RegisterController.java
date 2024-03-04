@@ -1,12 +1,13 @@
 package com.example.EventManagement.Controllers;
 
 import java.util.Arrays;
-import java.util.stream.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -24,6 +25,11 @@ import com.example.EventManagement.Models.Register;
 import com.example.EventManagement.Models.User;
 import com.example.EventManagement.Services.IRegisterService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,100 +37,152 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class RegisterController {
 
-  private IRegisterService registerService;
+	private IRegisterService registerService;
 
-  public RegisterController(IRegisterService registerService) {
-    this.registerService = registerService;
-  }
+	public RegisterController(IRegisterService registerService) {
+		this.registerService = registerService;
+	}
 
-  @PostMapping
-  public ResponseEntity<?> saveRegister(@Valid @RequestBody Register register, BindingResult bindingResult) {
+	@Operation(summary = "Creates a new Register")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Register resource successfully created.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "400", description = "Register resource has invalid field(s).") })
 
-    if (bindingResult.hasErrors()) {
-      Map<String, String> errors = new HashMap<>();
+	@PostMapping
+	public ResponseEntity<?> saveRegister(@Valid @RequestBody Register register, BindingResult bindingResult) {
 
-      for (FieldError error : bindingResult.getFieldErrors()) {
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new HashMap<>();
 
-        errors.put(error.getField(), error.getDefaultMessage());
-      }
+			for (FieldError error : bindingResult.getFieldErrors()) {
 
-      return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+				errors.put(error.getField(), error.getDefaultMessage());
+			}
 
-    }
+			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 
-    return new ResponseEntity<>(this.registerService.saveRegister(register), HttpStatus.CREATED);
+		}
 
-  }
+		return new ResponseEntity<>(this.registerService.saveRegister(register), HttpStatus.CREATED);
 
-  @GetMapping
-  public ResponseEntity<?> getAllRegister() {
-    return new ResponseEntity<>(this.registerService.getAllRegisters(), HttpStatus.OK);
-  }
+	}
 
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getRegisterById(@PathVariable Integer id)
+	@Operation(summary = "Retrieves an Register resource(s) from the database.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }) })
 
-  {
-    Register result = this.registerService.findRegisterById(id);
-    if (result == null) {
+	@GetMapping
+	public ResponseEntity<?> getAllRegister() {
+		return new ResponseEntity<>(this.registerService.getAllRegisters(), HttpStatus.OK);
+	}
 
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@Operation(summary = "Retrieves an Register resource from the database with the id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Register found for that id.") })
 
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getRegisterById(@PathVariable Integer id)
 
-    return new ResponseEntity<>(result, HttpStatus.OK);
+	{
+		Register result = this.registerService.findRegisterById(id);
+		if (result == null) {
 
-  }
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-  @PostMapping("/event/{eventId}")
-  public ResponseEntity<?> registerUsersForEvent(@PathVariable Integer eventId, @RequestBody Integer[] userIds) {
-    List<Register> registers = this.registerService.registerUsersToEvent(
-        eventId,
-        Arrays
-            .stream(userIds)
-            .collect(Collectors.toSet()));
-    return new ResponseEntity<>(registers, HttpStatus.OK);
-  }
+		}
 
-  @DeleteMapping("/event/{eventId}/user/{userId}")
-  public ResponseEntity<?> unregisterUsersForEvent(@PathVariable Integer eventId, @PathVariable Integer userId) {
-    return null;
-  }
+		return new ResponseEntity<>(result, HttpStatus.OK);
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteRegisterById(@PathVariable Integer id) {
-    boolean result = this.registerService.deleteRegisterById(id);
-    if (result) {
+	}
 
-      return new ResponseEntity<>(HttpStatus.OK);
-    }
+	@PostMapping("/event/{eventId}")
+	public ResponseEntity<?> registerUsersForEvent(@PathVariable Integer eventId, @RequestBody Integer[] userIds) {
+		List<Register> registers = this.registerService.registerUsersToEvent(eventId,
+				Arrays.stream(userIds).collect(Collectors.toSet()));
+		return new ResponseEntity<>(registers, HttpStatus.OK);
+	}
 
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@Operation(summary = "Deletes an User resource(s) from an specific event based on the user id and event id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User resource(s) successfully deleted from event.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No User found for that id.") })
 
-  }
+	@DeleteMapping("/event/{eventId}/user/{userId}")
+	public ResponseEntity<?> unregisterUsersForEvent(@PathVariable Integer eventId, @PathVariable Integer userId) {
+		return null;
+	}
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?> updateRegisterById(@PathVariable Integer id, @RequestBody Register register) {
+	@Operation(summary = "Deletes an Register resource from the database based on the register id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource successfully deleted.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Expense found for that id.") })
 
-    boolean result = this.registerService.updateRegisterById(id, register);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteRegisterById(@PathVariable Integer id) {
+		boolean result = this.registerService.deleteRegisterById(id);
+		if (result) {
 
-    if (result) {
-      return new ResponseEntity<>(register, HttpStatus.OK);
-    }
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-  }
+	}
 
-  @GetMapping("/user/{userId}")
-  public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
-    List<Register> registrations = registerService.findRegistrationsByUserId(userId);
-    return new ResponseEntity<>(registrations, HttpStatus.OK);
-  }
+	@Operation(summary = "Updates new Register")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully updated and returned.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Register found for that id.") })
 
-  @GetMapping("/attended-users/{eventId}")
-  public List<User> getAttendedUsersByEvent(@PathVariable Integer eventId) {
-    return registerService.getAttendingUsersForEvent(eventId);
-  }
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateRegisterById(@PathVariable Integer id, @RequestBody Register register) {
+
+		boolean result = this.registerService.updateRegisterById(id, register);
+
+		if (result) {
+			return new ResponseEntity<>(register, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+	}
+
+	@Operation(summary = "Retrieves an Register resource from the database based on the user id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Register found for that id.") })
+
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<Register>> getRegistrationsByUserId(@PathVariable Integer userId) {
+		List<Register> registrations = registerService.findRegistrationsByUserId(userId);
+		return new ResponseEntity<>(registrations, HttpStatus.OK);
+	}
+
+	@Operation(summary = "Retrieves an Register resource of users who have attended an event. Based on the event id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Register found for that id.") })
+
+	@GetMapping("/attended-users/{eventId}")
+	public List<User> getAttendedUsersByEvent(@PathVariable Integer eventId) {
+		return registerService.getAttendingUsersForEvent(eventId);
+	}
 
 }
