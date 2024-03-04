@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.EventManagement.Models.Event;
 import com.example.EventManagement.Services.IEventService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -33,6 +39,13 @@ public class EventController {
 	public EventController(IEventService eventService) {
 		this.eventService = eventService;
 	}
+
+	@Operation(summary = "Creates a new Event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Event resource successfully created.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "400", description = "Event resource has invalid field(s).") })
 
 	@PostMapping
 	public ResponseEntity<?> saveEvent(@Valid @RequestBody Event event, BindingResult bindingResult) {
@@ -53,10 +66,23 @@ public class EventController {
 
 	}
 
+	@Operation(summary = "Retrieves an Event resource(s) from the database.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }) })
+
 	@GetMapping
 	public ResponseEntity<?> getAllEvent() {
 		return new ResponseEntity<>(this.eventService.getAllEvents(), HttpStatus.OK);
 	}
+
+	@Operation(summary = "Retrieves an Event resource from the database with the id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Event found for that id.") })
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getEventById(@PathVariable Integer id)
@@ -73,6 +99,13 @@ public class EventController {
 
 	}
 
+	@Operation(summary = "Deletes an Event resource from the database with the id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource successfully deleted.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Expense found for that id.") })
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteEventById(@PathVariable Integer id) {
 
@@ -87,6 +120,13 @@ public class EventController {
 
 	}
 
+	@Operation(summary = "Updates new Event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource successfully updated and returned.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Event found for that id.") })
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateEventById(@PathVariable Integer id, @RequestBody Event event) {
 
@@ -99,6 +139,13 @@ public class EventController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
+
+	@Operation(summary = "Retrieves an Event resource(s) from the database based on organiser id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event resource(s) successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Event found for that id.") })
 
 	@GetMapping("/organiser/{organiserId}")
 	public List<Event> getEventsByOrganiserId(@PathVariable Integer organiserId) {
