@@ -8,20 +8,22 @@ import com.example.EventManagement.Models.User;
 
 public interface IRegisterService {
 
-  Register saveRegister(Register register);
+	Register saveRegister(Register register);
 
-  List<Register> getAllRegisters();
+	List<Register> getAllRegisters();
 
-  Register findRegisterById(Integer id);
+	Register findRegisterById(Integer id);
 
-  boolean updateRegisterById(Integer id, Register register);
+	boolean updateRegisterById(Integer id, Register register);
 
-  boolean deleteRegisterById(Integer id);
+	boolean deleteRegisterById(Integer id);
 
-  List<Register> findRegistrationsByUserId(Integer userId);
+	List<Register> findRegistrationsByUserId(Integer userId);
 
-  List<User> getAttendingUsersForEvent(Integer eventId);
+	List<User> getAttendingUsersForEvent(Integer eventId);
 
-  List<Register> registerUsersToEvent(Integer eventId, Set<Integer> userIds);
+	List<User> getNotAttendingUserForEvent(Integer eventId);
+
+	List<Register> registerUsersToEvent(Integer eventId, Set<Integer> userIds);
 
 }

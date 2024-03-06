@@ -17,4 +17,7 @@ public interface RegisterRepository extends JpaRepository<Register, Integer> {
 	@Query("SELECT r.users FROM Register r WHERE r.event.id = :eventId AND r.attended = true")
 	List<User> findAttendingUsersByEventId(Integer eventId);
 
+	@Query("SELECT r.users FROM Register r WHERE r.event.id = :eventId AND r.attended = false")
+	List<User> findNonAttendingUsersByEventId(Integer eventId);
+
 }

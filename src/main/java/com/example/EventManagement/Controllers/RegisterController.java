@@ -185,4 +185,15 @@ public class RegisterController {
 		return registerService.getAttendingUsersForEvent(eventId);
 	}
 
+	@Operation(summary = "Retrieves an Register resource of users who have not attended an event. Based on the event id that is given.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Register resource successfully retrieved.", headers = {
+					@Header(name = "location", description = "URI to access the created resource") }, content = {
+							@Content(mediaType = MediaType.APPLICATION_JSON_VALUE) }),
+			@ApiResponse(responseCode = "404", description = "No Register found for that id.") })
+
+	@GetMapping("/non-attending-users/{eventId}")
+	public List<User> getNonAttendingUsersByEvent(@PathVariable Integer eventId) {
+		return registerService.getNotAttendingUserForEvent(eventId);
+	}
 }
