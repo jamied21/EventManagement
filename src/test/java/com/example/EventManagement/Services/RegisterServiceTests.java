@@ -220,6 +220,18 @@ class RegisterServiceTests {
 		verify(mockRegisterRepository, times(1)).findAttendingUsersByEventId(eventId);
 	}
 
+	@Test
+	@DisplayName("Find Users who have not attended one sepcific event by event Id")
+	void testGetNonAttendingUsersForEvent() {
+		Integer eventId = 1;
+		List<User> expectedUsers = Arrays.asList();
+		Mockito.when(mockRegisterRepository.findNonAttendingUsersByEventId(eventId)).thenReturn(expectedUsers);
+
+		List<User> result = registerServiceImp.getNotAttendingUserForEvent(eventId);
+
+		assertThat(result.size()).isEqualTo(0);
+		verify(mockRegisterRepository, times(1)).findNonAttendingUsersByEventId(eventId);
+	}
 	/*
 	 * @Test
 	 * 
